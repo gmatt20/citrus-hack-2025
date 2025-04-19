@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ClientProviders from "./ClientProviders"; // ⬅️ New component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,22 +21,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <SignedOut>
-          <SignInButton />
-          <SignUpButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {children}
+          <ClientProviders>{children}</ClientProviders>{" "}
         </body>
       </html>
     </ClerkProvider>
