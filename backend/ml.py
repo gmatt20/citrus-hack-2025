@@ -96,9 +96,14 @@ def query(user_input=None):
 
     embedded_query = model.encode(user_input)
     similarities = cosine_similarity(embedded_query, embedded_data)
-    top_indices = list(np.argsort(similarities[0])[::-1][:3])
+    
+    # Get top 5 similar movies instead of 3
+    top_indices = list(np.argsort(similarities[0])[::-1][:5])
+    top_movies = [movies[i] for i in top_indices]
+    
+    # Use the top 3 for context in the Gemini prompt
     top_context = "\n\n".join(
-        [f"Title: {movies[i].title}\nOverview: {overviews[i]}" for i in top_indices]
+        [f"Title: {movies[i].title}\nOverview: {overviews[i]}" for i in top_indices[:3]]
     )
 
     gen_ai.configure(api_key=GEMINI_API_KEY)
@@ -123,4 +128,21 @@ User input:
 "{user_input}"
 """
     response = Gemini.generate_content(prompt)
-    return response.text.strip()
+    
+    # Create a structured response with both the recommendation and matching movies
+    result = {
+        "recommendation": response.text.strip(),
+        "matching_movies": [
+            {
+                "title": movie.title,
+                "id": movie.id,
+                "overview": movie.overview,
+                "release_date": movie.releaseDate,
+                "vote_average": movie.voteAvg,
+                "poster_path": movie.poster
+            } for movie in top_movies
+        ]
+    }
+    
+    # Return as JSON string or as a Python dict based on your needs
+    return json.dumps(result, indent=2)
