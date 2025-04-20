@@ -7,6 +7,5 @@ export default defineSchema({
         userID: v.string(),
         note: v.string(),
         genre: v.optional(v.string()),
-        language: v.optional(v.string()),
     })
 });
