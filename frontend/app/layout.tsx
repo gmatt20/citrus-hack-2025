@@ -3,7 +3,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Homemade_Apple, Limelight } from "next/font/google";
-import ClientProviders from "./ClientProviders"; // ⬅️ New component
+import ClientProviders from "./ClientProviders";
+import Nav from "@/components/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,10 @@ export default function RootLayout({
               "linear-gradient(to bottom, rgb(0, 0, 0), rgb(109, 28, 28))",
           }}
           className={`h-full ${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ClientProviders>{children}</ClientProviders>{" "}
+          <ClientProviders>
+            <Nav />
+            {children}
+          </ClientProviders>{" "}
         </body>
       </html>
     </ClerkProvider>
