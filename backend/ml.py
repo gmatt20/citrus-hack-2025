@@ -37,7 +37,7 @@ params = {
     "include_adult": False,
     "include_video": False,
     "language": "en-US",
-    "sort_by": "popularity.desc",
+    "sort_by": "vote_count.desc",
     "primary_release_date.gte": "1980-01-01",
     "with_genres": "28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37",
     "with_original_language": "en",
@@ -55,43 +55,76 @@ response_json = json.loads(response.text)
 
 def fetch_movies(pages=10):
     movies = []
-
+    
+    # Test the API key first with a single request
+    test_params = {
+        "include_adult": False,
+        "include_video": False,
+        "language": "en-US",
+        "sort_by": "popularity.desc",
+        "page": 1
+    }
+    
+    test_response = requests.get(url, headers=headers, params=test_params)
+    print(f"Initial test request status: {test_response.status_code}")
+    if test_response.status_code != 200:
+        print(f"API error: {test_response.text}")
+        return movies  # Return empty list if we can't even make a basic request
+    
+    # If basic request works, try with full parameters
     for page in range(1, pages + 1):
         local_params = {
-            "include_adult": False,
+           "include_adult": False,
             "include_video": False,
             "language": "en-US",
-            "sort_by": "popularity.desc",
+            "sort_by": "vote_count.desc", 
             "primary_release_date.gte": "1980-01-01",
-            "with_genres": "28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37",
             "with_original_language": "en",
             "page": page
-                }
-
+        }
+        
+        # Start with minimal parameters - add more later if this works
+        # Removed potentially problematic parameters for now
+        
+        print(f"Fetching page {page}...")
         response = requests.get(url, headers=headers, params=local_params)
+        print(f"Page {page} status code: {response.status_code}")
+        
         if response.status_code == 200:
             response_json = response.json()
-            for movie in response_json.get("results", []):
+            results = response_json.get("results", [])
+            print(f"Results on page {page}: {len(results)} items")
+            
+            for movie in results:
                 if movie.get("overview"):  # Ensure the movie has a summary
                     data = Data(
-                        title=movie.get("title"),
-                        id=movie.get("id"),
-                        language=movie.get("original_language"),
-                        overview=movie.get("overview"),
-                        popularity=movie.get("popularity"),
-                        poster=movie.get("poster_path"),
-                        releaseDate=movie.get("release_date"),
-                        voteAvg=movie.get("vote_average")
+                        title=movie.get("title", "Unknown Title"),
+                        id=movie.get("id", 0),
+                        language=movie.get("original_language", ""),
+                        overview=movie.get("overview", ""),
+                        popularity=movie.get("popularity", 0),
+                        poster=movie.get("poster_path", ""),
+                        releaseDate=movie.get("release_date", ""),
+                        voteAvg=movie.get("vote_average", 0)
                     )
                     movies.append(data)
+            
+            print(f"Total movies after page {page}: {len(movies)}")
         else:
             print(f"Failed to fetch page {page}: {response.status_code}")
+            print(f"Error details: {response.text}")
             break
-
+            
+        # Add a small delay to avoid rate limiting
+        import time
+        time.sleep(0.5)
+        
     return movies
 
-movies = fetch_movies(pages=10)
-print(f"Total movies fetched: {len(movies)}")
+# Try with minimal parameters first
+movies = fetch_movies(pages=80)
+print(f"Final total movies fetched: {len(movies)}")
+
 for movie in movies:
   print(movie.title)
 
