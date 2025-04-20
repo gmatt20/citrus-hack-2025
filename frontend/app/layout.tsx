@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Homemade_Apple } from 'next/font/google';
+import { Homemade_Apple, Limelight } from 'next/font/google';
 import ClientProviders from "./ClientProviders"; // ⬅️ New component
 
 const geistSans = Geist({
@@ -40,4 +40,9 @@ export default function RootLayout({
 const homemadeApple = Homemade_Apple({
   subsets: ['latin'],
   weight: '400',
+});
+
+const limelight = Limelight({
+  subsets: ['latin'],
+  weight: '400', // Limelight only has one weight
 });
