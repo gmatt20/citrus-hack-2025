@@ -10,7 +10,6 @@ export const createNote = mutation({
   args: {
     note: v.string(),
     genre: v.string(),
-    language: v.string(),
   },
   handler: async (ctx, args) => {
     const userID = await getAuthUserId(ctx);
@@ -24,7 +23,6 @@ export const createNote = mutation({
       userID,
       note: args.note,
       genre: args.genre,
-      language: args.language,
     });
   },
 });
