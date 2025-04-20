@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState,useEffect} from "react";
 
 const moviePosters = [
   {
@@ -18,6 +18,15 @@ const moviePosters = [
 ];
 
 export default function MovieResults() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+      const handleMouseMove = (e: MouseEvent) => {
+        setMousePos({ x: e.clientX, y: e.clientY });
+      };
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
   return (
     <div
       style={{
@@ -27,6 +36,13 @@ export default function MovieResults() {
         overflow: "hidden",
         padding: "80px 20px",
       }}>
+      {/* Spotlight cursor effect */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background: `radial-gradient(350px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.12), transparent 90%)`
+        }}
+      ></div>
       {/* Content */}
       <div
         style={{

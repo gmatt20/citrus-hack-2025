@@ -5,19 +5,6 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 
-export function NotesList() {
-  const notes = useQuery(api.notes.getNotes);
-  return (
-    <div>
-      {notes?.slice(-3).reverse().map((note) => (
-        <div key={note._id} className="mb-4 p-4 bg-gray-800 rounded text-white">
-          <p><strong>Old queries: </strong>{note.note}, {note.genre}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function NotesForm({ feeling, setFeeling }: { feeling: string; setFeeling: (val: string) => void; }) {
   return (
     <input
@@ -62,10 +49,17 @@ export default function OnboardingPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center translate-y-[5vh] p-10 text-white font-[geist] relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center p-10 text-white font-[geist] relative overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #0f0f0f,rgb(109, 28, 28))',
       }}>
+      {/* Spotlight cursor effect */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background: `radial-gradient(250px at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.12), transparent 90%)`
+        }}
+      ></div>
 
       <form onSubmit={handleSubmit} className="z-10">
         <h2
@@ -75,7 +69,6 @@ export default function OnboardingPage() {
         </h2>
 
         <NotesForm feeling={feeling} setFeeling={setFeeling} />
-        <NotesList />
 
         <div className="flex justify-center max-md:items-center flex-wrap gap-10 mb-8">
 
