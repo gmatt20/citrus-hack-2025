@@ -32,10 +32,6 @@ export const createNote = mutation({
 export const getNotes = query ({
   args: {},
   handler: async (ctx, args) => {
-    const userID = await getAuthUserId(ctx);
-    if (!userID) {
-      throw new Error("Unauthorized");
-    }
     return await ctx.db.query("notes").collect();
   }
 });
