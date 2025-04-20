@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.button-zoom {
+  padding: 12px 30px;
+  font-size: 20px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.button-zoom:hover {
+  transform: scale(1.10);
+}
