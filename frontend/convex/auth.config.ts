@@ -1,8 +1,7 @@
 export default {
   providers: [
     {
-
-      domain: "https://gentle-flounder-43.clerk.accounts.dev",
+      domain: "https://internal-sloth-95.clerk.accounts.dev",
       applicationID: "convex",
     },
   ],

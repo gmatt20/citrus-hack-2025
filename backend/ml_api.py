@@ -5,12 +5,14 @@ app = Flask(__name__)
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json()
+    data = request.get_json() or {}
     user_input = data.get("input")
 
-    if not user_input:
-      return jsonify({"error": "No input provided"}), 400
+    try:
+        result = query(user_input)
+        return jsonify({"result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-    result = query(user_input)
-
-    return jsonify({"result": result})
+if __name__ == "__main__":
+    app.run(debug=True)
