@@ -5,6 +5,22 @@ import json
 from sentence_transformers import SentenceTransformer
 import numpy as np
 import google.generativeai as gen_ai
+import requests
+
+load_dotenv(dotenv_path=".env.local") # take environment variables
+
+CONVEX_URL = os.getenv("CONVEX_DEPLOYMENT_URL")  # e.g. https://happy-feels.convex.cloud
+
+print("CONVEX_URL =", os.getenv("CONVEX_DEPLOYMENT_URL"))
+
+GET_NOTES_FUNCTION = "getNotes"
+
+
+
+response = requests.post(f"{CONVEX_URL}/api/query/{GET_NOTES_FUNCTION}", json={})
+
+notes_data = response.json()
+
 
 # Embedding model is a ML technique that transforms data into 
 # representations that a ML can understand, which are numbers.
@@ -26,7 +42,6 @@ class Data:
     self.releaseDate = releaseDate
     self.voteAvg = voteAvg
 
-load_dotenv()  # take environment variables
 
 url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
 
@@ -70,7 +85,10 @@ def cosine_similarity(a, b):
 embedded_data = model.encode(overviews)
 
 # Take in user input
-queries = ["Vibe: chill, funny, dark jokes.?"]
+response = requests.post(f"{CONVEX_URL}/api/query/{GET_NOTES_FUNCTION}", json={})
+notes_data = response.json()
+latest_note = notes_data[-1]
+queries = [f"Vibe: {latest_note['note']}, Genre: {latest_note['genre']}, Language: {latest_note['language']}"]
 
 # Embed user's input for the computer to understand what
 # we are saying to it!
