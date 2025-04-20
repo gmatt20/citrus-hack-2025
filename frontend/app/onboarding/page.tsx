@@ -54,10 +54,37 @@ export default function OnboardingPage() {
       alert("Please complete all fields.");
       return;
     }
-    await createNote({ note: feeling, genre, });
-    setFeeling("");
-    setGenre("");
-    router.push("/results");
+    
+    // Save the note to Convex
+    await createNote({ note: feeling, genre});
+    
+    try {
+      // Make request to Flask API
+      const response = await fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          input: `Vibe: ${feeling}, Genre: ${genre}, Language: en`
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+      // The data.result is likely already parsed from JSON string to object
+      // Convert it back to a string for localStorage
+      localStorage.setItem('movieResults', JSON.stringify(data.result));
+      
+      // Navigate to results page
+      router.push("/results");
+    } catch (error) {
+      console.error('Error fetching movie recommendations:', error);
+      alert('Error getting movie recommendations. Please try again.');
+    }
   };
 
   return (
