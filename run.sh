@@ -33,7 +33,8 @@ trap cleanup SIGINT SIGTERM
 # Start backend server (Python)
 echo -e "${GREEN}Starting backend server...${NC}"
 cd backend
-python main.py &
+python3 -m venv venv
+flask --app ml_api run &
 BACKEND_PID=$!
 pids+=($BACKEND_PID)
 cd ..
