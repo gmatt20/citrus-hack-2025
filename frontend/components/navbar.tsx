@@ -5,9 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/clerk-react";
 import { Spinner } from "@/components/ui/spinner";
 import { useConvexAuth } from "convex/react";
-import Image from "next/image";
-import rolling from "@/public/rolling.svg";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -24,24 +22,23 @@ const Navbar = () => {
 
   return (
     <>
-      <Image
-        alt="rolling film"
-        src={rolling}
-        className="fixed top-0 left-0 h-[8%] w-auto object-cover"
-      />
-      <div className="w-screen fixed flex justify-between items-center p-6">
-        <div className="cursor-pointer text-white">
-          <ChevronLeft onClick={() => router.back()} />
-        </div>
+      <div className="w-screen fixed flex justify-between items-center md:px-20 p-6 z-10">
         {isLoading && <Spinner className="text-white" />}
         {isAuthenticated && !isLoading && (
-          <div className="flex justify-center items-center gap-3">
-            <p className="text-white">
-              {isHome ? `Welcome ${user?.fullName}` : user?.fullName}
-            </p>
-            <UserButton />
-          </div>
+          <>
+            <div className="cursor-pointer text-white flex">
+              <ChevronLeft onClick={() => router.back()} />
+              <ChevronRight onClick={() => window.history.forward()} />
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              <p className="text-white font-bold">
+                {isHome ? `Welcome ${user?.fullName}` : user?.fullName}
+              </p>
+              <UserButton />
+            </div>
+          </>
         )}
+        {isLoading && <Spinner className="text-white" />}
       </div>
     </>
   );
