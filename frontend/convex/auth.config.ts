@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://special-impala-51.clerk.accounts.dev",
+      domain: "https://pleasing-finch-3.clerk.accounts.dev",
       applicationID: "convex",
     },
   ],
