@@ -1,7 +1,11 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { mutation } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-
+import {RateLimiter, MINUTE, HOUR} from "@convex-dev/rate-limiter"
+import {components} from "./_generated/api"
+const rateLimiter = new RateLimiter(components.rateLimiter, {
+  createNote: { kind: "fixed window", rate: 5, period: MINUTE}
+});
 export const createNote = mutation({
   args: {
     note: v.string(),
@@ -13,6 +17,8 @@ export const createNote = mutation({
     if (!userID) {
       throw new Error("Unauthorized");
     }
+    
+    await rateLimiter.limit(ctx, "createNote", {key: userID, throws:true});
 
     await ctx.db.insert("notes", {
       userID,
@@ -22,3 +28,22 @@ export const createNote = mutation({
     });
   },
 });
+
+export const getNotes = query ({
+  args: {},
+  handler: async (ctx, args) => {
+    const userID = await getAuthUserId(ctx);
+    if (!userID) {
+      throw new Error("Unauthorized");
+    }
+    return await ctx.db.query("notes").collect();
+  }
+});
+
+export const deleteAll = internalMutation({
+  args: {},
+  handler: async (ctx, args) => {
+    const notes = await ctx.db.query("notes").collect();
+    await Promise.all(notes.map((note)=> ctx.db.delete(note._id)))
+  }
+})
