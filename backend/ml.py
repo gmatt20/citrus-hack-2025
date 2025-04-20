@@ -40,7 +40,7 @@ def fetch_latest_note():
         print("Convex error:", e)
         return None
 
-def fetch_movies(pages=10):
+def fetch_movies(pages=20):
     movies = []
     url = "https://api.themoviedb.org/3/discover/movie"
     headers = {
@@ -109,7 +109,7 @@ def query(user_input=None):
     gen_ai.configure(api_key=GEMINI_API_KEY)
     Gemini = gen_ai.GenerativeModel(
         model_name="gemini-2.0-flash",
-        generation_config={"temperature": 0.9, "top_p": 1, "top_k": 1, "max_output_tokens": 200},
+        generation_config={"temperature": 0.9, "top_p": 1, "top_k": 1, "max_output_tokens": 500},
         safety_settings=[
             {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
             {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
