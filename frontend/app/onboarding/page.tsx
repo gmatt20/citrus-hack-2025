@@ -1,10 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useRouter } from "next/navigation";
-
+export function NotesList() {
+  const notes = useQuery(api.notes.getNotes);
+  return (
+    <div>
+   {notes?.map((note) => (
+    <div key={note._id} className="mb-4 p-4 bg-gray-800 rounded text-white">
+      <p><strong>old queries:</strong>{note.note}<strong>, </strong>{note.genre}<strong>, </strong>{note.language}</p>
+    </div>
+  ))}
+</div>
+    );
+}
 function NotesForm({
   feeling,
   setFeeling,
@@ -65,6 +76,7 @@ export default function OnboardingPage() {
 
         {/* Feeling input box */}
         <NotesForm feeling={feeling} setFeeling={setFeeling} />
+        <NotesList/>
 
         {/* Dropdowns */}
         <div className="flex justify-center max-md:items-center  flex-wrap gap-10 mb-8">
