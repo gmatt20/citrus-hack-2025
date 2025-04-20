@@ -16,14 +16,14 @@ const Header = () => {
       {isLoading && <Spinner size="large" className="text-white" />}
       {!isAuthenticated && !isLoading && (
         <SignInButton>
-          <button className="px-2 py-3 text-white bg-amber-700 rounded-lg text-lg hover:bg-amber-900 transition">
+          <button className="px-2 py-3 text-white bg-amber-600 rounded-lg text-lg hover:bg-amber-900 transition font-bold">
             Sign In For Free!
           </button>
         </SignInButton>
       )}
       {isAuthenticated && !isLoading && (
         <Link
-          className="cursor-pointer px-2 py-3 text-white bg-amber-700 rounded-lg text-lg hover:bg-amber-900 transition"
+          className="cursor-pointer px-5 py-3 text-white bg-amber-600 rounded-lg text-lg hover:bg-amber-500 transition font-bold"
           href="/onboarding">
           Enter the Cinemagic!
         </Link>

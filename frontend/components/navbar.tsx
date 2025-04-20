@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="w-screen fixed flex justify-between items-center md:px-20 p-6 z-10">
+      <div className="w-screen fixed flex justify-between items-center md:px-20 p-6 z-10 font-[geist]">
         {isLoading && <Spinner className="text-white" />}
         {isAuthenticated && !isLoading && (
           <>

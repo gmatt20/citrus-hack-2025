@@ -53,7 +53,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-10 text-white font-sans">
+    <div className="min-h-screen flex flex-col items-center justify-center p-10 text-white font-[geist]">
       <form onSubmit={handleSubmit}>
         <h2
           className="mb-10 md:text-5xl text-3xl text-center"
@@ -124,7 +124,7 @@ export default function OnboardingPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="bg-amber-600 py-3 px-8 text-xl rounded-full text-white transition-transform duration-200 ease-in-out"
+            className="bg-amber-600 py-3 px-8 text-xl rounded-full text-white transition-transform duration-200 ease-in-out font-bold"
             onMouseOver={(e) =>
               (e.currentTarget.style.transform = "scale(1.05)")
             }
