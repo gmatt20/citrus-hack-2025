@@ -1,7 +1,6 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import { Authenticated } from "convex/react";
 import { useUser } from "@clerk/clerk-react";
 import { Spinner } from "@/components/ui/spinner";
 import { useConvexAuth } from "convex/react";

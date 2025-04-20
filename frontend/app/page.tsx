@@ -5,12 +5,7 @@ import Header from "@/components/header";
 
 export default function Home() {
   return (
-    <div
-      className="min-h-full flex flex-col"
-      style={{
-        background:
-          "linear-gradient(to bottom, rgb(0, 0, 0), rgb(109, 28, 28))",
-      }}>
+    <div className="min-h-full flex flex-col">
       <Navbar />
       <Header />
     </div>

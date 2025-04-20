@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useMutation } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 function NotesForm({
   feeling,
@@ -14,27 +14,20 @@ function NotesForm({
 }) {
   return (
     <input
-      className="border-2"
+      className="border-2 w-full px-5 py-2.5 rounded-lg text-2xl mb-6"
       type="text"
       name="note"
       placeholder="e.g. excited, chill, sad, romantic..."
       value={feeling}
       onChange={(e) => setFeeling(e.target.value)}
-      style={{
-        padding: '10px 20px',
-        borderRadius: '8px',
-        fontSize: '24px',
-        marginBottom: '25px',
-        width: '400px',
-      }}
     />
   );
 }
 
 export default function OnboardingPage() {
-  const [language, setLanguage] = useState('');
-  const [genre, setGenre] = useState('');
-  const [feeling, setFeeling] = useState('');
+  const [language, setLanguage] = useState("");
+  const [genre, setGenre] = useState("");
+  const [feeling, setFeeling] = useState("");
   const createNote = useMutation(api.notes.createNote);
   const router = useRouter();
 
@@ -42,7 +35,7 @@ export default function OnboardingPage() {
     e.preventDefault();
 
     if (!feeling || !language || !genre) {
-      alert('Please complete all fields.');
+      alert("Please complete all fields.");
       return;
     }
 
@@ -52,134 +45,96 @@ export default function OnboardingPage() {
       language,
     });
 
-    setFeeling('');
-    setGenre('');
-    setLanguage('');
+    setFeeling("");
+    setGenre("");
+    setLanguage("");
 
-    router.push('/results');
+    router.push("/results");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(to bottom, rgb(0, 0, 0), rgb(109, 28, 28))',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '40px',
-        color: 'white',
-        fontFamily: 'Arial, sans-serif',
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: '20px',
-          fontFamily: '"Homemade Apple", cursive',
-          fontSize: '40px',
-        }}
-      >
-        How are you feeling today?
-      </h2>
+    <div className="min-h-screen flex flex-col items-center justify-center p-10 text-white font-sans">
+      <form onSubmit={handleSubmit}>
+        <h2
+          className="mb-10 md:text-5xl text-3xl text-center"
+          style={{
+            fontFamily: '"Homemade Apple", cursive',
+          }}>
+          How are you feeling today?
+        </h2>
 
-      {/* Feeling input box */}
-      <NotesForm feeling={feeling} setFeeling={setFeeling} />
+        {/* Feeling input box */}
+        <NotesForm feeling={feeling} setFeeling={setFeeling} />
 
-      {/* Dropdowns */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '100px',
-          marginBottom: '30px',
-          flexWrap: 'wrap',
-        }}
-      >
-        {/* Language */}
-        <div>
-          <label htmlFor="language" style={{ fontSize: '24px' }}>
-            Language:
-          </label>
-          <select
-            className="border-2 text-white"
-            id="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            style={{
-              padding: '8px',
-              borderRadius: '6px',
-              fontSize: '24px',
-              color: 'white',
-            }}
-          >
-            <option value="">Select</option>
-            <option value="English" className="text-black">
-              English
-            </option>
-            <option value="Hindi" className="text-black">
-              Hindi
-            </option>
-            <option value="Japanese" className="text-black">
-              Japanese
-            </option>
-            <option value="Spanish" className="text-black">
-              Spanish
-            </option>
-          </select>
+        {/* Dropdowns */}
+        <div className="flex justify-center max-md:items-center  flex-wrap gap-10 mb-8">
+          {/* Language */}
+          <div>
+            <label htmlFor="language" className="text-2xl mr-3">
+              Language:
+            </label>
+            <select
+              className="p-2 rounded text-2xl border-2 text-white max-md:flex"
+              id="language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}>
+              <option value="">Select</option>
+              <option value="English" className="text-black">
+                English
+              </option>
+              <option value="Hindi" className="text-black">
+                Hindi
+              </option>
+              <option value="Japanese" className="text-black">
+                Japanese
+              </option>
+              <option value="Spanish" className="text-black">
+                Spanish
+              </option>
+            </select>
+          </div>
+
+          {/* Genre */}
+          <div>
+            <label htmlFor="genre" className="text-2xl mr-3">
+              Genre:
+            </label>
+            <select
+              className="p-2 rounded text-2xl border-2 text-white max-md:flex"
+              id="genre"
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}>
+              <option value="">Select</option>
+              <option value="Action" className="text-black">
+                Action
+              </option>
+              <option value="Comedy" className="text-black">
+                Comedy
+              </option>
+              <option value="Romance" className="text-black">
+                Romance
+              </option>
+              <option value="Thriller" className="text-black">
+                Thriller
+              </option>
+            </select>
+          </div>
         </div>
-
-        {/* Genre */}
-        <div>
-          <label htmlFor="genre" style={{ fontSize: '24px' }}>
-            Genre:
-          </label>
-          <select
-            className="border-2 text-white"
-            id="genre"
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-            style={{
-              padding: '8px',
-              borderRadius: '6px',
-              fontSize: '24px',
-              color: 'white',
-            }}
-          >
-            <option value="">Select</option>
-            <option value="Action" className="text-black">
-              Action
-            </option>
-            <option value="Comedy" className="text-black">
-              Comedy
-            </option>
-            <option value="Romance" className="text-black">
-              Romance
-            </option>
-            <option value="Thriller" className="text-black">
-              Thriller
-            </option>
-          </select>
+        <div className="flex items-center justify-center">
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="bg-amber-600 py-3 px-8 text-xl rounded-full text-white transition-transform duration-200 ease-in-out"
+            onMouseOver={(e) =>
+              (e.currentTarget.style.transform = "scale(1.05)")
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.style.transform = "scale(1.0)")
+            }>
+            🔍 Search Movies
+          </button>
         </div>
-      </div>
-
-      {/* Submit Button */}
-      <button
-        type="submit"
-        className="bg-amber-600"
-        style={{
-          padding: '10px 30px',
-          fontSize: '20px',
-          borderRadius: '25px',
-          color: 'white',
-          transition: 'transform 0.2s ease',
-        }}
-        onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-        onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
-      >
-        🔍 Search Movies
-      </button>
-    </form>
+      </form>
+    </div>
   );
 }
