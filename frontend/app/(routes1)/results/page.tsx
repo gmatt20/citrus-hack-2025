@@ -21,7 +21,7 @@ export default function MovieResults() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(to bottom,rgb(0, 0, 0),rgb(109, 28, 28))',
+      background: 'linear-gradient(to bottom, #000000,rgb(109, 28, 28))',
       position: 'relative',
       overflow: 'hidden',
       padding: '80px 20px',
@@ -42,7 +42,7 @@ export default function MovieResults() {
             width: '180px',
             height: '270px',
             overflow: 'hidden',
-            border: '3px solid red',
+            border: '4px solid red',
             borderRadius: '5px',
             transition: 'transform 0.3s ease',
           }}
