@@ -6,8 +6,6 @@ import { Authenticated, Unauthenticated, useMutation } from "convex/react";
 import { useConvexAuth } from "convex/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { api } from "../convex/_generated/api";
-
 
 
 export default function Home() {

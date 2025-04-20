@@ -5,6 +5,8 @@ export default defineSchema({
     ...authTables,
     notes: defineTable({
         userID: v.string(),
-        note: v.string()
+        note: v.string(),
+        genre: v.optional(v.string()),
+        language: v.optional(v.string()),
     })
 });
