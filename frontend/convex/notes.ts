@@ -5,12 +5,12 @@ export const createNote = mutation ({
     args: {
         note: v.string(),
     },
-    handler: async (convexToJson, args) => {
-        const userID = await getAuthUserId(convexToJson);
+    handler: async (ctx, args) => {
+        const userID = await getAuthUserId(ctx);
         if (!userID) {
             throw new Error ("Unauthorized")
         }
-        await convexToJson.db.insert ("notes", {
+        await ctx.db.insert ("notes", {
             userID,
             note: args.note,
         });
