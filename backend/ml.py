@@ -2,6 +2,7 @@ import os
 import time
 import json
 import requests
+import random
 import numpy as np
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
@@ -40,7 +41,7 @@ def fetch_latest_note():
         print("Convex error:", e)
         return None
 
-def fetch_movies(pages=20):
+def fetch_movies(pages=10, randomize=True):
     movies = []
     url = "https://api.themoviedb.org/3/discover/movie"
     headers = {
@@ -48,16 +49,35 @@ def fetch_movies(pages=20):
         "Authorization": f"Bearer {TMDB_API_KEY}"
     }
 
+    # Add randomized sorting options
+    sort_options = ["popularity.desc", "vote_count.desc", "vote_average.desc", "revenue.desc"]
+    
     for page in range(1, pages + 1):
         params = {
             "include_adult": False,
             "include_video": False,
             "language": "en-US",
-            "sort_by": "vote_count.desc",
+            "sort_by": random.choice(sort_options) if randomize else "vote_count.desc",
             "primary_release_date.gte": "1980-01-01",
             "with_original_language": "en",
-            "page": page
+            "page": page,
         }
+        
+        # Add random year range to further diversify results
+        if randomize:
+            min_year = random.randint(1980, 2020)
+            max_year = min(min_year + 10, 2023)
+            params["primary_release_date.gte"] = f"{min_year}-01-01"
+            params["primary_release_date.lte"] = f"{max_year}-12-31"
+        
+        # Add genre filtering randomly
+        if randomize and random.random() > 0.5:
+            # TMDB genre IDs
+            genre_ids = [28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770, 53, 10752, 37]
+            params["with_genres"] = random.choice(genre_ids)
+            
+        response = requests.get(url, headers=headers, params=params)
+        # rest of your code...
         response = requests.get(url, headers=headers, params=params)
         if response.status_code != 200:
             break
