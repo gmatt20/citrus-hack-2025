@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { useState, useEffect } from "react";
+
 
 const moviePosters = [
   {
@@ -18,6 +20,13 @@ const moviePosters = [
 ];
 
 export default function MovieResults() {
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    fetch ('http://127.0.0.1:5000')
+    .then(response => response.json())
+    .then(json => setMovies(json))
+    .catch(error => console.error('Error fetching data:', error));
+  } , []);
   return (
     <div
       style={{
