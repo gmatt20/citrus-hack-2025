@@ -1,11 +1,14 @@
 "use client";
 
 import { SignInButton, UserButton } from "@clerk/clerk-react";
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
+
+import { Authenticated, Unauthenticated, useMutation } from "convex/react";
 import { useConvexAuth } from "convex/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { api } from "../convex/_generated/api";
+
+
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useConvexAuth();

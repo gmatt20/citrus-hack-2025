@@ -37,6 +37,7 @@ yarn-error.log*
 .vercel
 
 # typescript
+auth.config.ts
 *.tsbuildinfo
 next-env.d.ts
 
